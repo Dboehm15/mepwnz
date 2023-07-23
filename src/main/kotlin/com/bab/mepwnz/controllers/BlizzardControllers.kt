@@ -33,15 +33,4 @@ class BlizzardControllers(
                 .block()
         }
     }
-
-
-    @GetMapping("/test2")
-    suspend fun test2(@RequestBody auctionHouseRequest: AuctionHouseRequest): Int? {
-
-        return blizzardService.getServerId(auctionHouseRequest.serverName!!)
-            .flatMap { map ->
-                Mono.just(map)
-            }
-            .block()
-    }
 }
