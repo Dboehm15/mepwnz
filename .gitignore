@@ -1,3 +1,7 @@
+### I added these ###
+*.env
+src/main/resources/.env
+
 HELP.md
 .gradle
 build/
@@ -35,3 +39,4 @@ out/
 
 ### VS Code ###
 .vscode/
+

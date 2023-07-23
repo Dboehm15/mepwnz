@@ -1,1 +1,2 @@
 # generate class option k
+
