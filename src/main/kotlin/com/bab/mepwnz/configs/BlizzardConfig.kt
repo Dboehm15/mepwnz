@@ -30,17 +30,6 @@ class BlizzardConfig {
     private val logger = LoggerFactory.getLogger(BlizzardConfig::class.java)
 
     @Bean
-    fun getBlizzardExecutor(): ExecutorService {
-        return ThreadPoolExecutor(
-            0,
-            maxAsyncRequests,
-            Long.MAX_VALUE,
-            TimeUnit.MILLISECONDS,
-            RateLimitedQueue(maxAsyncRequests, initialPoolSize, maxNewThreadsPerSecond)
-        )
-    }
-
-    @Bean
     fun getBlizzardWebClient(): WebClient {
         val mapper = ObjectMapper()
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

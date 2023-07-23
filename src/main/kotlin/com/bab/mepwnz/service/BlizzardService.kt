@@ -2,30 +2,36 @@ package com.bab.mepwnz.service
 
 import com.bab.mepwnz.clients.BlizzardClient
 import com.bab.mepwnz.models.AuctionHouse
-import java.util.concurrent.ExecutorService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Service
 class BlizzardService (
     private val blizzardClient: BlizzardClient,
-    getGPTExecutor: ExecutorService
 ) {
     private val logger = LoggerFactory.getLogger(BlizzardService::class.java)
-    private val dispatcher = getGPTExecutor.asCoroutineDispatcher()
-    suspend fun getAuctionHouse(): AuctionHouse = coroutineScope {
-        logger.debug("Doing the things in the service class")
+    suspend fun getAuctionHouse(realmId: Int): Mono<AuctionHouse> {
+        logger.info("Getting auction house data")
+        return blizzardClient.getAuctionHouse(realmId)
+    }
 
-        val response = async(dispatcher){
-            withContext(Dispatchers.IO){
-                blizzardClient.getAuctionHouse()
+    suspend fun getServerId(serverName: String): Mono<Int>  {
+        logger.info("Getting realmId")
+        return blizzardClient.getRealmMetaData()
+            .flatMapMany { metaData ->
+                Flux.fromIterable(metaData.results)
             }
-        }
-        return@coroutineScope response.await()
+            .flatMap { results ->
+                Flux.fromIterable(results.data.realms)
+            }
+            .filter { realm ->
+                realm.name.en_US == serverName
+            }
+            .map { realm ->
+                realm.id
+            }
+            .next()
     }
 }
