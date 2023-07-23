@@ -25,6 +25,13 @@ dependencies {
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+	//I added these
+	//implementation("com.github.dotenv-org:dotenv-vault-kotlin:0.0.2")
+	implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+
+
+	//NOT THIS
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }

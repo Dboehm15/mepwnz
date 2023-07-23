@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Mono
 
 @CrossOrigin
 @RestController
@@ -16,7 +15,7 @@ class BlizzardControllers(
 ) {
 
     @GetMapping("/test")
-    suspend fun test(@RequestBody auctionHouseRequest: AuctionHouseRequest): AuctionHouseResponse? {
+    suspend fun getAuctions(@RequestBody auctionHouseRequest: AuctionHouseRequest): AuctionHouseResponse? {
         val realmId = auctionHouseRequest.id
             ?: auctionHouseRequest.serverName?.let {
                 blizzardService.getServerId(it)
@@ -27,7 +26,7 @@ class BlizzardControllers(
         } else {
             blizzardService.getAuctionHouse(realmId)
                 .map { auctionHouse ->
-                    AuctionHouseResponse(auctionHouse = auctionHouse)
+                    AuctionHouseResponse(auctionCount = auctionHouse.auctions.size, auctionHouse = auctionHouse)
                 }
                 .onErrorReturn(AuctionHouseResponse(msg = "An error occurred"))
                 .block()

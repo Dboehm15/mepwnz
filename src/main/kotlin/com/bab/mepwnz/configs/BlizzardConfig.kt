@@ -7,6 +7,7 @@ import io.netty.handler.ssl.SslContextBuilder
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.codec.ClientCodecConfigurer
 import org.springframework.http.codec.json.Jackson2JsonDecoder
@@ -14,9 +15,6 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.resources.ConnectionProvider
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
 import reactor.netty.http.client.HttpClient
 import java.time.Duration
 import reactor.netty.tcp.SslProvider
@@ -24,6 +22,7 @@ import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 
+@Configuration
 @ConfigurationProperties("")
 class BlizzardConfig {
     lateinit var url: String
@@ -69,8 +68,6 @@ class BlizzardConfig {
     }
     companion object {
         private const val maxAsyncRequests: Int = 500
-        private const val initialPoolSize: Int = 50
-        private const val maxNewThreadsPerSecond: Double = 6.048
     }
 }
 
