@@ -1,5 +1,6 @@
 ### I added these ###
-.env
+*.env
+src/main/resources/.env
 
 HELP.md
 .gradle

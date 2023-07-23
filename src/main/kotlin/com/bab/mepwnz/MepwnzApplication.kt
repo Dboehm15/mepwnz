@@ -1,5 +1,6 @@
 package com.bab.mepwnz
 
+import io.github.cdimascio.dotenv.dotenv
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
